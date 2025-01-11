@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import { PORT } from './lib/config';
 import { db } from './lib/db';
 import authRouter from './routes/auth.routes';
+import userRouter from './routes/user.routes';
 
 // Connect to the database
 db();
@@ -20,6 +21,8 @@ app.use(bodyParser.json());
 
 // Use the auth router
 app.use("/api/v1/auth", authRouter)
+
+app.use("/api/v1/users", userRouter);
 
 // Start the server
 app.listen(PORT, () => {
