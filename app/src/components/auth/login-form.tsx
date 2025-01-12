@@ -11,9 +11,14 @@ import { Link } from "react-router";
 import { useState } from "react";
 import { AuthPasswordInput } from "./password-input";
 import { Spinner } from "../percept-ui/spinner";
+import { useToast } from "@/hooks/use-toast";
+import { login } from "@/lib/services/auth.actions";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { toast } = useToast();
+
   const form = useForm<UserLoginInput>({
     resolver: zodResolver(userLoginSchema),
     defaultValues: {
@@ -24,10 +29,13 @@ const LoginForm = () => {
 
   const handleLogin = async (data: UserLoginInput) => {
     setLoading(true);
-    console.log(data);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const res = await login(data.email, data.password);
+    console.log(res);
+    toast({
+      title: res.data.message,
+      variant: res.status === 200 ? "default" : "destructive",
+    });
+    setLoading(false);
   };
 
   return (
@@ -56,7 +64,7 @@ const LoginForm = () => {
           </Link>
         </p>
         <Button disabled={loading} type="submit" className="w-full">
-          {loading ? <Spinner/> : "Login"}
+          {loading ? <Spinner /> : "Login"}
         </Button>
         <div>
           <p className="text-sm text-end">

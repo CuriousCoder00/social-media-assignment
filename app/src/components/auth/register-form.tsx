@@ -10,9 +10,14 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import { AuthPasswordInput } from "./password-input";
+import { useToast } from "@/hooks/use-toast";
 import { Spinner } from "../percept-ui/spinner";
+import { register } from "@/lib/services/auth.actions";
+
 const RegistrationForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const navigate = useNavigate();
 
@@ -28,7 +33,11 @@ const RegistrationForm = () => {
 
   const signup = async (data: UserSignupInput) => {
     setLoading(true);
-    console.log(data);
+    const res = await register(data.name, data.email, data.password);
+    toast({
+      title: res.data.message,
+      variant: res.status === 201 ? "default" : "destructive",
+    });
     setLoading(false);
     navigate("/auth/login");
   };
