@@ -94,3 +94,28 @@ export const loginController: RequestHandler = async (req: Request, res: Respons
         return;
     }
 }
+
+/**
+ * Logout controller
+ * @param req Request
+ * @param res Response
+ * @returns Promise<void>
+ * @description Logout a user
+ * @route POST /api/v1/auth/logout
+ * @access Private
+ * @type Controller
+ * @statusCodes 200 - User logged out
+ * @statusCodes 500 - Server error
+ */
+export const logoutController: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    try {
+        // Clear the token
+        res.clearCookie("token").status(200).json({ message: "Logout successful" });
+        return;
+    } catch (error) {
+        console.error(error);
+        // Return a 500 status code
+        res.status(500).json({ message: "Server error" });
+        return;
+    }
+}

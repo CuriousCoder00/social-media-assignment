@@ -8,11 +8,11 @@ import { cva } from "class-variance-authority";
 
 const passwordInputVariants = cva(
   [
-    "w-full",
-    "focus:outline-none outline-none",
-    "px-2 py-1",
-    "text-slate-700 focus:border-blue-500",
-    "bg-transparent dark:text-white",
+    "w-full flex h-9 rounded-md border border-input",
+    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+    "px-3 py-1",
+    "bg-transparent text-base shadow-sm dark:text-white",
+    "transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground",
   ],
   {
     variants: {
@@ -65,16 +65,13 @@ export const PasswordInput = forwardRef<HTMLInputElement, passwordInputProps>(
   ) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     return (
-      <div
-        ref={forwardedRef}
-        className={cn("relative w-full", className)}
-      >
+      <div ref={forwardedRef} className={cn("relative w-full", className)}>
         <input
           placeholder={placeholder}
           type={showPassword ? "text" : "password"}
           {...props}
           className={cn(
-            "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+            "",
             className,
             passwordInputVariants({ variant, radius })
           )}
