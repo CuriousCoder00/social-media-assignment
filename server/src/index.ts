@@ -8,6 +8,7 @@ import { db } from './lib/db';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import friendsRouter from './routes/friends.routes';
+import User from './schemas/user.schema';
 
 // Connect to the database
 db();

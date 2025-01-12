@@ -1,8 +1,13 @@
+import { BrowserRouter as Router } from "react-router";
+import { ModeToggle } from "./components/theme-toggle";
+import AppRoutes from "./routes";
+
 function App() {
   return (
-    <div>
-      <h1>App</h1>
-    </div>
+    <Router>
+      <ModeToggle />
+      <AppRoutes />
+    </Router>
   );
 }
 
