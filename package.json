@@ -1,0 +1,32 @@
+{
+  "name": "social-media-app",
+  "version": "1.0.0",
+  "description": "TargetGrid Assignment Social Media App with connection paths",
+  "main": ".",
+  "scripts": {
+    "install": "npm install --save-dev concurrently && cd app && echo \"Installing app dependencies\" && npm install && cd .. && cd server && echo \"Installing server dependencies\" && npm install && cd ..",
+    "dev": "concurrently \"cd app && npm run dev\" \"cd server && npm run dev\"",
+    "build": "concurrently \"cd app && npm run build\" \"cd server && npm run build\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CuriousCoder00/social-media-assignment.git"
+  },
+  "keywords": [
+    "social-media",
+    "mern",
+    "dfs",
+    "bfs",
+    "add-friends",
+    "visualization"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CuriousCoder00/social-media-assignment/issues"
+  },
+  "homepage": "https://github.com/CuriousCoder00/social-media-assignment#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
