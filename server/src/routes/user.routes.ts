@@ -8,7 +8,7 @@ import { fetchAllUsers } from "../controllers/user.controller";
  * @type Router
  */
 
-const userRouter = Router();
+const userRouter: Router = Router();
 
 // Fetch all users route
 userRouter.get("/", fetchAllUsers);

@@ -7,7 +7,7 @@ import { loginController, registrationController } from '../controllers/auth.con
  * @route /api/v1/auth
  * @type Router
  */
-const authRouter = Router();
+const authRouter: Router = Router();
 
 // Register and login routes
 authRouter.post('/register', registrationController)
