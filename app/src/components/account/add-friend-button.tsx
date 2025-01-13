@@ -2,6 +2,8 @@ import { useSession } from "@/hooks/use-session";
 import { Button } from "../ui/button";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import LoginPrompt from "../login-prompt";
+import { useToast } from "@/hooks/use-toast";
+import { addFriend, removeFriend } from "@/lib/services/friends.actions";
 
 export default function AddFriendButton({
   userId,
@@ -13,17 +15,31 @@ export default function AddFriendButton({
   name: string;
 }) {
   const { session } = useSession();
+  const { toast } = useToast();
   const isLoggedIn = session.isLoggedIn;
   const isFriends = session.friends.includes(userId);
-  console.log(isFriends);
+  const handleAddFriend = async () => {
+    const res = await addFriend(userId);
+    toast({
+      title: res.data.message,
+      variant: res.status === 200 ? "default" : "destructive",
+    });
+  };
+  const handleRemoveFriend = async () => {
+    const res = await removeFriend(userId);
+    toast({
+      title: res.data.message,
+      variant: res.status === 200 ? "default" : "destructive",
+    });
+  };
   if (isLoggedIn && session.user.id !== userId && !isFriends) {
-    return <Button>Add Friend</Button>;
+    return <Button onClick={() => handleAddFriend()}>Add Friend</Button>;
   }
   if (isLoggedIn && session.user.id === userId) {
     return null;
   }
   if (isLoggedIn && isFriends) {
-    return <Button>Remove</Button>;
+    return <Button onClick={() => handleRemoveFriend()}>Remove</Button>;
   }
   return (
     <Dialog>
