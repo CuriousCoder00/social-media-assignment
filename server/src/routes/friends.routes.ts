@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { fetchAllFriends } from "../controllers/friends.controller";
+import { connectionPaths, fetchAllFriends } from "../controllers/friends.controller";
 import { addFriend, removeFriend } from "../controllers/friends.controller";
 import { middleware } from "../lib/middleware";
 
@@ -19,5 +19,7 @@ friendsRouter.post("/:friendId", middleware, addFriend);
 
 // Remove friend route
 friendsRouter.delete("/:friendId", middleware, removeFriend);
+
+friendsRouter.get("/connections/:friendId", middleware, connectionPaths);
 
 export default friendsRouter;

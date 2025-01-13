@@ -3,6 +3,7 @@ import LoginPage from "./pages/auth/login";
 import RegistrationPage from "./pages/auth/register";
 import { useSession } from "./hooks/use-session";
 import Account from "./pages/account/account";
+import Home from "./pages/home";
 
 interface AuthenticatedRouteProps {
   isAuthenticated: boolean;
@@ -23,7 +24,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route element={<AuthenticatedRoute isAuthenticated={isAuthenticated} />}>
-        <Route index element={<div>App</div>} />
+        <Route index element={<Home />} />
       </Route>
       <Route
         element={<UnauthenticatedRoute isAuthenticated={isAuthenticated} />}

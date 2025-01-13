@@ -2,6 +2,8 @@ import { Link } from "react-router";
 import { ModeToggle } from "./theme-toggle";
 import { useSession } from "@/hooks/use-session";
 import ProfileSettings from "./profile-settings";
+import { Button } from "./ui/button";
+import { Bell, Search } from "lucide-react";
 
 export default function Header() {
   const { session } = useSession();
@@ -13,7 +15,15 @@ export default function Header() {
       <nav className="flex items-center space-x-4">
         <div className="">
           {session.isLoggedIn ? (
-            <ProfileSettings />
+            <div className="flex items-center space-x-3">
+              <Button className="rounded-full" variant={"ghost"} size={"icon"}>
+                <Search />
+              </Button>
+              <Button className="rounded-full" variant={"ghost"} size={"icon"}>
+                <Bell />
+              </Button>
+              <ProfileSettings />
+            </div>
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/auth/register">Get Started</Link>

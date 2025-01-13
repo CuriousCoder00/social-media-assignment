@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { fetchAllUsers, getUserById, getUserByUsername } from "../controllers/user.controller";
+import { fetchAllUsers, getFriendsOfUser, getUserById, getUserByUsername } from "../controllers/user.controller";
 import { middleware } from "../lib/middleware";
 
 /**
@@ -15,5 +15,6 @@ const userRouter: Router = Router();
 userRouter.get("/", middleware, fetchAllUsers);
 userRouter.get("/:id", middleware, getUserById);
 userRouter.get("/username/:username", getUserByUsername);
+userRouter.get("/:id/friends", middleware, getFriendsOfUser);
 
 export default userRouter;

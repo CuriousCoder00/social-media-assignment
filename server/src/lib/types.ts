@@ -7,4 +7,6 @@ declare module 'express' {
     }
 }
 
-export { }
+export interface FriendshipGraph {
+    [userId: string]: string[]; // Adjacency list representation of friendships
+}

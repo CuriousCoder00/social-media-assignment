@@ -76,3 +76,17 @@ export const getUserByUsername: RequestHandler = async (req: Request, res: Respo
         res.status(500).json({ message: "Server error" });
     }
 }
+
+export const getFriendsOfUser: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const user = await User.findById(req.params.id).populate("friends", "-password");
+        if (!user) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+        res.status(200).json(user.friends);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+}
