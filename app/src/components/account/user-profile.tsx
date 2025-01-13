@@ -1,7 +1,7 @@
 import { getNameInitial } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
+import React, { useEffect, useState } from "react";
 import { getUserByUsername } from "@/lib/services/users.actions";
 import { Skeleton } from "../ui/skeleton";
 import NotFound from "@/pages/not-found";
@@ -11,11 +11,13 @@ import {
   MessageCircle,
   Heart,
   Share2,
+  Calendar,
 } from "lucide-react";
 import AddFriendButton from "./add-friend-button";
 import EditProfile from "./edit-profile";
 import { useSession } from "@/hooks/use-session";
 import Followers from "./followers";
+import { getConnectionPaths, getFriends } from "@/lib/services/friends.actions";
 interface UserProfile {
   email: string;
   friends: Array<{
@@ -40,9 +42,18 @@ interface UserProfile {
   joined: Date;
 }
 
+interface ConnectionPath {
+  path: (string | undefined)[]; // List of user names or undefined in the path
+}
+
+interface Friend {
+  id: string;
+  username: string;
+}
+
 export const ProfileDetails = () => {
   const { session } = useSession();
-
+  const [friends, setFriends] = useState<Friend[]>([]);
   const username = useParams().username as string;
 
   const [ProfileData, setProfileData] = useState<UserProfile>({
@@ -61,11 +72,36 @@ export const ProfileDetails = () => {
     const fetchData = async () => {
       const res = await getUserByUsername(username);
       setProfileData(res.data);
-      console.log(res.data);
       setLoading(false);
     };
     fetchData();
   }, [username]);
+
+  useEffect(() => {
+    const fetchFriendsAndConnections = async () => {
+      try {
+        setLoading(true);
+
+        // Fetch the current user's friends
+        const friendsResponse = await getFriends();
+        setFriends(friendsResponse.data);
+
+        // Fetch connection paths for each friend
+        const paths: Record<string, ConnectionPath[]> = {};
+        for (const friend of friendsResponse.data) {
+          const response = await getConnectionPaths(friend._id);
+          paths[friend.id] = response.data.paths;
+        }
+        console.log(paths);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFriendsAndConnections();
+  }, [ProfileData._id]);
 
   if (loading) {
     return (
@@ -93,32 +129,77 @@ export const ProfileDetails = () => {
   return (
     <div className="min-h-screen w-full p-4 mt-20">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 -mt-20">
-        <div className="bg-background rounded-lg shadow-lg p-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div className="bg-background rounded-lg shadow-lg p-6 w-full">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 w-full">
             <div className="flex items-center gap-6 w-full">
               <Avatar className="w-28 h-28">
                 <AvatarFallback className="text-xl">
                   {getNameInitial(ProfileData.name)}
                 </AvatarFallback>
               </Avatar>
-              <div className="flex-1">
+              <div className="flex flex-col w-full">
                 <div className="flex flex-col">
                   <h1 className="text-2xl font-bold">{ProfileData.name}</h1>
                   <h1 className="text-sm text-muted-foreground">
                     @{ProfileData.username}
                   </h1>
                 </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar size={20} />
+                    Joined {new Date(ProfileData.joined).getFullYear()}
+                  </span>
+                </div>
+                {session.user.id !== ProfileData._id && (
+                  <div className="flex items-center gap-2 mt-2">
+                    {friends.length > 2 ? (
+                      <div className="flex items-center gap-2">
+                        <span>Followed by </span>
+                        {friends.slice(0, 2).map((friend, index) => (
+                          <React.Fragment key={friend.id}>
+                            <Link
+                              to={`/account/${friend.username}`}
+                              className="font-semibold"
+                            >
+                              {friend.username}
+                            </Link>
+                            {index < 1 && ", "}
+                          </React.Fragment>
+                        ))}
+                        <span className="font-semibold">
+                          {" "}
+                          & {friends.length - 2} others
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <span>Followed by </span>
+                        {friends.map((friend, index) => (
+                          <React.Fragment key={friend.id}>
+                            <Link
+                              to={`/account/${friend.username}`}
+                              className="font-semibold"
+                            >
+                              {friend.username}
+                            </Link>
+                            {index < friends.length - 1 && ", "}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <AddFriendButton
-                name={ProfileData.name}
-                username={ProfileData.username}
-                userId={ProfileData._id}
-              />
-              {session.isLoggedIn && session.user.id === ProfileData._id && (
-                <EditProfile />
-              )}
+              <div className="flex items-center space-x-4">
+                <AddFriendButton
+                  name={ProfileData.name}
+                  username={ProfileData.username}
+                  userId={ProfileData._id}
+                />
+                {session.isLoggedIn && session.user.id === ProfileData._id && (
+                  <EditProfile />
+                )}
+              </div>
             </div>
           </div>
 

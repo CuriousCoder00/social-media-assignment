@@ -27,3 +27,12 @@ export const removeFriend = async (friendId: string) => {
         return { data: (error as AxiosError).response?.data, status: (error as AxiosError).response?.status };
     }
 }
+
+export const getConnectionPaths = async (userId: string) => {
+    try {
+        const response = await axiosInstance.get(`/friend/connections/${userId}`);
+        return { data: response.data, status: response.status };
+    } catch (error) {
+        return { data: (error as AxiosError).response?.data, status: (error as AxiosError).response?.status };
+    }
+}
