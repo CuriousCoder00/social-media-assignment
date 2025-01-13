@@ -6,7 +6,7 @@ export const useSession = () => {
   const [session, setSession] = useRecoilState(sessionState);
 
   useEffect(() => {
-    const sessionData = localStorage.getItem("session");
+    const sessionData = localStorage.getItem("social-media-app-session");
     if (sessionData) {
       setSession(JSON.parse(sessionData));
     } else {

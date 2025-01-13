@@ -32,7 +32,6 @@ const LoginForm = () => {
   const handleLogin = async (data: UserLoginInput) => {
     setLoading(true);
     const res = await login(data.email, data.password);
-    console.log(res);
     if (res.status === 200) {
       setSession({
         isLoggedIn: true,
@@ -40,7 +39,7 @@ const LoginForm = () => {
         user: res.data.user,
       });
       localStorage.setItem(
-        "session",
+        "social-media-app-session",
         JSON.stringify({
           isLoggedIn: true,
           token: res.data.token,

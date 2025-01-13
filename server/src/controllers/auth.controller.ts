@@ -83,7 +83,7 @@ export const loginController: RequestHandler = async (req: Request, res: Respons
         // Create a JWT token
         const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
         // Return the token
-        res.cookie("token", token, { httpOnly: true, sameSite: 'none', secure: true, }).status(200).json({
+        res.cookie("social-media-app-token", token, { httpOnly: true, sameSite: 'none', secure: true, }).status(200).json({
             message: "Login successful", user: { id: user._id, name: user.name, email: user.email }, token
         });
         return;
@@ -110,7 +110,7 @@ export const loginController: RequestHandler = async (req: Request, res: Respons
 export const logoutController: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
         // Clear the token
-        res.clearCookie("token").status(200).json({ message: "Logout successful" });
+        res.clearCookie("social-media-app-token").status(200).json({ message: "Logout successful" });
         return;
     } catch (error) {
         console.error(error);

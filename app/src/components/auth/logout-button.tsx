@@ -1,12 +1,30 @@
-import { logoutAction } from "@/lib/recoil/actions/logout.action";
+import { logout } from "@/lib/services/auth.actions";
 import { Button } from "../ui/button";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { LucideLogOut } from "lucide-react";
+import { useNavigate } from "react-router";
+import { useToast } from "@/hooks/use-toast";
+import { useSession } from "@/hooks/use-session";
 
 export default function LogoutButton() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { setSession } = useSession();
   const handleLogout = () => {
-    logoutAction().then(() => {
-      window.location.replace("/");
+    logout().then((res) => {
+      toast({
+        title: res.data.message,
+      });
+      setSession({
+        isLoggedIn: false,
+        token: null,
+        user: {
+          id: "",
+          email: "",
+          name: "",
+        },
+      });
+      navigate("/auth/login");
     });
   };
   return (

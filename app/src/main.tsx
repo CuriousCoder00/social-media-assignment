@@ -9,7 +9,7 @@ import { RecoilRoot } from "recoil";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RecoilRoot>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="dark" storageKey="social-media-app-theme">
         <App />
         <Toaster />
       </ThemeProvider>
