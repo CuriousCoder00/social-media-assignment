@@ -29,8 +29,8 @@ app.use(cookieParser());
 
 // Use the routers
 app.use("/api/v1/auth", authRouter)
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/friends", friendsRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/friend", friendsRouter);
 
 // Start the server
 app.listen(PORT, () => {

@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { fetchAllUsers } from "../controllers/user.controller";
+import { fetchAllUsers, getUserById, getUserByUsername } from "../controllers/user.controller";
+import { middleware } from "../lib/middleware";
 
 /**
  * User router
@@ -12,5 +13,7 @@ const userRouter: Router = Router();
 
 // Fetch all users route
 userRouter.get("/", fetchAllUsers);
+userRouter.get("/:id", middleware, getUserById);
+userRouter.get("/username/:username", getUserByUsername);
 
 export default userRouter;

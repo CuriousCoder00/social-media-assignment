@@ -1,11 +1,9 @@
-import { useParams } from "react-router";
+import { ProfileDetails } from "@/components/account/user-profile";
 
 export default function Account() {
-  const params = useParams();
   return (
-    <div className="pt-24">
-      <h1>Account</h1>
-      <p>Account ID: {params.username}</p>
+    <div className="flex flex-col items-center justify-center h-full">
+      <ProfileDetails />
     </div>
   );
 }
