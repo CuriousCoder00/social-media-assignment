@@ -12,8 +12,8 @@ const AuthForm = ({
   const location = useLocation();
   const path = location.pathname;
   return (
-    <div className="flex flex-col items-start justify-center mx-auto shadow-inner dark:shadow-neutral-600 shadow-neutral-300 p-4 md:rounded-xl sm:rounded-lg gap-3 dark:bg-black max-w-sm w-full">
-      <div className="flex flex-col items-center justify-center w-full my-4">
+    <div className="flex flex-col items-start justify-center mx-auto  p-4 md:rounded-xl sm:rounded-lg gap-3 md:min-w-96 max-w-sm w-full">
+      <div className="flex flex-col items-start justify-center w-full my-4">
         <h1 className="font-bold text-xl">
           Welcome {path === "/auth/login" ? "Back" : ""} to{" "}
           <span className="text-sky-600">Social Networks</span>

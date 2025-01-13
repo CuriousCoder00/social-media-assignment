@@ -4,6 +4,8 @@ import { axiosInstance } from "./axios.config";
 export const login = async (email: string, password: string) => {
     try {
         const response = await axiosInstance.post('/auth/login', { email, password });
+        const token = response.data.token;
+        localStorage.setItem('token', token);
         return { data: response.data, status: response.status };
     } catch (error) {
         return { data: (error as AxiosError).response?.data, status: (error as AxiosError).response?.status };

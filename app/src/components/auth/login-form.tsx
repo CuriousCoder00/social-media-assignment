@@ -7,16 +7,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AuthForm from "./auth-form";
 import { AuthInput } from "./auth-input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import { AuthPasswordInput } from "./password-input";
 import { Spinner } from "../percept-ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 import { login } from "@/lib/services/auth.actions";
+import { useSession } from "@/hooks/use-session";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-
+  const { setSession } = useSession();
   const { toast } = useToast();
 
   const form = useForm<UserLoginInput>({
@@ -31,11 +33,27 @@ const LoginForm = () => {
     setLoading(true);
     const res = await login(data.email, data.password);
     console.log(res);
+    if (res.status === 200) {
+      setSession({
+        isLoggedIn: true,
+        token: res.data.token,
+        user: res.data.user,
+      });
+      localStorage.setItem(
+        "session",
+        JSON.stringify({
+          isLoggedIn: true,
+          token: res.data.token,
+          user: res.data.user,
+        })
+      );
+    }
     toast({
       title: res.data.message,
       variant: res.status === 200 ? "default" : "destructive",
     });
     setLoading(false);
+    navigate("/");
   };
 
   return (

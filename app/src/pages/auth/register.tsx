@@ -1,10 +1,11 @@
 import RegistrationForm from "@/components/auth/register-form";
+import AuthLayout from "@/layouts/auth-layout";
 
 const RegistrationPage = () => {
   return (
-    <div className="flex items-center justify-center min-h-dvh">
+    <AuthLayout>
       <RegistrationForm />
-    </div>
+    </AuthLayout>
   );
 };
 

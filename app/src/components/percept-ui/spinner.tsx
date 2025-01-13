@@ -90,9 +90,10 @@ type SpinnerProps = VariantProps<typeof spinnerVariants> & {
   className?: string;
 };
 
-export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
-  ({ className, color, size }) => (
+export const Spinner = forwardRef<SVGSVGElement, SpinnerProps>(
+  ({ className, color, size }, ref) => (
     <LoaderCircle
+      ref={ref}
       className={cn(className, spinnerVariants({ size, className, color }))}
     />
   )
