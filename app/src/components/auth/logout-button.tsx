@@ -24,6 +24,7 @@ export default function LogoutButton() {
           name: "",
           username: "",
         },
+        friends: [],
       });
       navigate("/auth/login");
     });
