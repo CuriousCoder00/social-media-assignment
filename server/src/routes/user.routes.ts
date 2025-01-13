@@ -12,7 +12,7 @@ import { middleware } from "../lib/middleware";
 const userRouter: Router = Router();
 
 // Fetch all users route
-userRouter.get("/", fetchAllUsers);
+userRouter.get("/", middleware, fetchAllUsers);
 userRouter.get("/:id", middleware, getUserById);
 userRouter.get("/username/:username", getUserByUsername);
 

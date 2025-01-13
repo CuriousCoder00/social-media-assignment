@@ -19,6 +19,7 @@ export const useSession = () => {
           name: "",
           username: "",
         },
+        friends: [],
       });
     }
   }, []);

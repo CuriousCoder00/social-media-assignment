@@ -6,7 +6,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <div className="pt-16 md:px-20 px-4">
+      <div className="pt-16 md:px-20 px-4 max-w-screen mx-auto overflow-x-hidden">
         <AppRoutes />
       </div>
     </Router>

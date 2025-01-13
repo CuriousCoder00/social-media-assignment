@@ -19,6 +19,7 @@ export const sessionState = atom({
             name: "",
             username: "",
         },
+        friends: [""],
     }
 })
 

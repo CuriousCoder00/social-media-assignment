@@ -38,8 +38,10 @@ export const addFriend: RequestHandler = async (req: Request, res: Response): Pr
         }
         // Add the friend to the user's friends list
         user.friends.push(friend._id);
+        friend.friends.push(user._id);
         // Save the user
         await user.save();
+        await friend.save();
         // Return a 200 status code
         res.status(200).json(user);
         return;

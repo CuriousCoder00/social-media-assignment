@@ -37,6 +37,7 @@ const LoginForm = () => {
         isLoggedIn: true,
         token: res.data.token,
         user: res.data.user,
+        friends: res.data.friends,
       });
       localStorage.setItem(
         "social_media_app_session",
@@ -44,6 +45,7 @@ const LoginForm = () => {
           isLoggedIn: true,
           token: res.data.token,
           user: res.data.user,
+          friends: res.data.friends,
         })
       );
     }

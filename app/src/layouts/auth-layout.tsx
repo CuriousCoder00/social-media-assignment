@@ -20,7 +20,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           <li>Rediscover yourself</li>
         </ul>
       </div>
-      <div className="">{children}</div>
+      <div className="w-full">{children}</div>
     </div>
   );
 };

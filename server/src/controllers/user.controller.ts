@@ -15,11 +15,12 @@ import User from "../schemas/user.schema";
  */
 export const fetchAllUsers: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
+        const user_id = req.user?.id;
         // Fetch all users
         // Select all fields except the password
         const users = await User.find().select("-password");
         // Return a 200 status code
-        res.status(200).json(users);
+        res.status(200).json(users.filter((user) => user._id.toString() !== user_id));
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });

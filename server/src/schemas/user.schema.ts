@@ -24,7 +24,11 @@ const UserSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "User"
         }
-    ]
+    ],
+    joined: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 const User = model("User", UserSchema);
