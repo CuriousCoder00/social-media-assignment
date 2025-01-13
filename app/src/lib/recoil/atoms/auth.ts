@@ -17,6 +17,7 @@ export const sessionState = atom({
             id: "",
             email: "",
             name: "",
+            username: "",
         }
     }
 })

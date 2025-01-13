@@ -39,7 +39,7 @@ const LoginForm = () => {
         user: res.data.user,
       });
       localStorage.setItem(
-        "social-media-app-session",
+        "social_media_app_session",
         JSON.stringify({
           isLoggedIn: true,
           token: res.data.token,

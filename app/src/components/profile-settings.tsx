@@ -31,7 +31,7 @@ export default function ProfileSettings() {
         <DropdownMenuItem>
           <Link
             className="flex gap-3 items-center justify-start"
-            to={"/account"}
+            to={`/account/${session.user.username}`}
           >
             <User className="h-5 w-5" />
             <span className="text-sm">My Profile</span>

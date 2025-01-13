@@ -22,6 +22,7 @@ export default function LogoutButton() {
           id: "",
           email: "",
           name: "",
+          username: "",
         },
       });
       navigate("/auth/login");

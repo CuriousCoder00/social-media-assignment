@@ -31,10 +31,13 @@ export const registrationController: RequestHandler = async (req: Request, res: 
             res.status(400).json({ message: "User already exists" });
             return;
         }
+        // If the user does not exist, continue
+        // Create new unique username from email
+        const username = email.split("@")[0];
         // Hash the password
         const hashPassword = await bcrypt.hash(password, 10);
         // Create a new user
-        const user = new User({ email, password: hashPassword, name });
+        const user = new User({ email, password: hashPassword, name, username });
         // Save the user
         await user.save();
         // Return a 201 status code
@@ -83,8 +86,8 @@ export const loginController: RequestHandler = async (req: Request, res: Respons
         // Create a JWT token
         const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
         // Return the token
-        res.cookie("social-media-app-token", token, { httpOnly: true, sameSite: 'none', secure: true, }).status(200).json({
-            message: "Login successful", user: { id: user._id, name: user.name, email: user.email }, token
+        res.cookie("social_media_app_token", token, { httpOnly: true, sameSite: 'none', secure: true, }).status(200).json({
+            message: "Login successful", user: { id: user._id, name: user.name, email: user.email, username: user.username }, token
         });
         return;
     } catch (error) {
@@ -110,7 +113,7 @@ export const loginController: RequestHandler = async (req: Request, res: Respons
 export const logoutController: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
         // Clear the token
-        res.clearCookie("social-media-app-token").status(200).json({ message: "Logout successful" });
+        res.clearCookie("social_media_app_token").status(200).json({ message: "Logout successful" });
         return;
     } catch (error) {
         console.error(error);
