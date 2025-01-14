@@ -16,7 +16,7 @@ const AuthForm = ({
       <div className="flex flex-col items-start justify-center w-full my-4">
         <h1 className="font-bold text-xl">
           Welcome {path === "/auth/login" ? "Back" : ""} to{" "}
-          <span className="text-sky-600">Social Networks</span>
+          <span className="text-sky-600">Whispr</span>
         </h1>
         <p className="text-sm text-neutral-500">
           {path === "/auth/login" ? "Login to " : "Register "} your account and

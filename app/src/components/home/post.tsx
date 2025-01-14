@@ -10,7 +10,7 @@ export function Post({
   imageUrl?: string;
 }) {
   return (
-    <div className="rounded-lg border border-foreground shadow mb-4">
+    <div className="rounded-lg border border-foreground/30 shadow mb-4">
       <div className="p-4">
         <div className="flex items-center space-x-2">
           <img
