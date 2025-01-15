@@ -79,7 +79,8 @@ export const getUserByUsername: RequestHandler = async (req: Request, res: Respo
 
 export const getFriendsOfUser: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user = await User.findById(req.params.id).populate("friends", "-password");
+        console.log(req.params)
+        const user = await User.findById(req.params._id).populate("friends", "-password");
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;

@@ -32,7 +32,7 @@ const findConnectionPaths = (
                 visited.add(neighbor);
                 dfs([...currentPath, neighbor], visited, depth + 1);
                 visited.delete(neighbor); // Backtrack
-                console.log(`Visiting: ${currentUser}, Path: ${currentPath}`);
+                // console.log(`Visiting: ${currentUser}, Path: ${currentPath}`);
             }
         }
     };

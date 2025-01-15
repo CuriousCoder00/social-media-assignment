@@ -15,6 +15,6 @@ const userRouter: Router = Router();
 userRouter.get("/", middleware, fetchAllUsers);
 userRouter.get("/:id", middleware, getUserById);
 userRouter.get("/username/:username", getUserByUsername);
-userRouter.get("/:id/friends", middleware, getFriendsOfUser);
+userRouter.get("/:_id/friends", middleware, getFriendsOfUser);
 
 export default userRouter;

@@ -27,3 +27,12 @@ export const getUserByUsername = async (username: string) => {
         return { data: (error as AxiosError).response?.data, status: (error as AxiosError).response?.status };
     }
 }
+
+export const getFriends = async (id:string) => {
+    try {
+        const response = await axiosInstance.get(`/user/${id}/friends`);
+        return { data: response.data, status: response.status };
+    } catch (error) {
+        return { data: (error as AxiosError).response?.data, status: (error as AxiosError).response?.status };
+    }
+}

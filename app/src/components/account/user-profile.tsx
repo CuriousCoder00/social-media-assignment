@@ -1,7 +1,7 @@
 import { getNameInitial } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Link, useParams } from "react-router";
-import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { useEffect, useState } from "react";
 import { getUserByUsername } from "@/lib/services/users.actions";
 import { Skeleton } from "../ui/skeleton";
 import NotFound from "@/pages/not-found";
@@ -17,7 +17,7 @@ import AddFriendButton from "./add-friend-button";
 import EditProfile from "./edit-profile";
 import { useSession } from "@/hooks/use-session";
 import Followers from "./followers";
-import { getConnectionPaths, getFriends } from "@/lib/services/friends.actions";
+import Mutuals from "./mutual-connections";
 interface UserProfile {
   email: string;
   friends: Array<{
@@ -42,18 +42,8 @@ interface UserProfile {
   joined: Date;
 }
 
-interface ConnectionPath {
-  path: (string | undefined)[]; // List of user names or undefined in the path
-}
-
-interface Friend {
-  id: string;
-  username: string;
-}
-
 export const ProfileDetails = () => {
   const { session } = useSession();
-  const [friends, setFriends] = useState<Friend[]>([]);
   const username = useParams().username as string;
 
   const [ProfileData, setProfileData] = useState<UserProfile>({
@@ -76,33 +66,6 @@ export const ProfileDetails = () => {
     };
     fetchData();
   }, [username]);
-
-  useEffect(() => {
-    const fetchFriendsAndConnections = async () => {
-      try {
-        setLoading(true);
-
-        // Fetch the current user's friends
-        const friendsResponse = await getFriends();
-        setFriends(friendsResponse.data);
-
-        // Fetch connection paths for each friend
-        const paths: Record<string, ConnectionPath[]> = {};
-        for (const friend of friendsResponse.data) {
-          const response = await getConnectionPaths(friend._id);
-          paths[friend.id] = response.data.paths;
-        }
-        console.log(paths);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFriendsAndConnections();
-  }, [ProfileData._id]);
-
   if (loading) {
     return (
       <div className="flex flex-col items-center p-4 justify-center rounded-md dark:bg-neutral-900 bg-neutral-200 w-full relative">
@@ -152,41 +115,7 @@ export const ProfileDetails = () => {
                 </div>
                 {session.user.id !== ProfileData._id && (
                   <div className="flex items-center gap-2 mt-2">
-                    {friends.length > 2 ? (
-                      <div className="flex items-center gap-2">
-                        <span>Followed by </span>
-                        {friends.slice(0, 2).map((friend, index) => (
-                          <React.Fragment key={friend.id}>
-                            <Link
-                              to={`/account/${friend.username}`}
-                              className="font-semibold"
-                            >
-                              {friend.username}
-                            </Link>
-                            {index < 1 && ", "}
-                          </React.Fragment>
-                        ))}
-                        <span className="font-semibold">
-                          {" "}
-                          & {friends.length - 2} others
-                        </span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <span>Followed by </span>
-                        {friends.map((friend, index) => (
-                          <React.Fragment key={friend.id}>
-                            <Link
-                              to={`/account/${friend.username}`}
-                              className="font-semibold"
-                            >
-                              {friend.username}
-                            </Link>
-                            {index < friends.length - 1 && ", "}
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    )}
+                    <Mutuals />
                   </div>
                 )}
               </div>

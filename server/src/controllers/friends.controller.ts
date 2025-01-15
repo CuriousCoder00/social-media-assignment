@@ -91,8 +91,10 @@ export const removeFriend: RequestHandler = async (req: Request, res: Response):
         }
         // Remove the friend from the user's friends list
         user.friends = user.friends.filter((friend_id) => friend_id.toString() !== friend._id.toString());
+        friend.friends = friend.friends.filter((user_id) => user_id.toString() !== user._id.toString());
         // Save the user
         await user.save();
+        await friend.save();
         // Return a 200 status code
         res.status(200).json(user);
         return;
